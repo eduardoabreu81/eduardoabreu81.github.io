@@ -162,14 +162,27 @@ a:hover {
   flex-grow: 1;
 }
 
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
 .badge {
-  align-self: flex-start;
   font-size: 0.75rem;
   color: var(--gray);
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--card-border);
   padding: 3px 10px;
   border-radius: 999px;
+}
+
+.stars {
+  font-size: 0.85rem;
+  color: var(--blue);
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .project-section.hidden {
