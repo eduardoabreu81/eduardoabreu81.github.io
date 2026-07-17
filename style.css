@@ -14,12 +14,28 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background: var(--bg);
   color: var(--text);
   line-height: 1.6;
+  overflow-x: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 .container {
@@ -38,10 +54,51 @@ a:hover {
 }
 
 .hero {
+  position: relative;
   background: linear-gradient(180deg, var(--bg-alt), var(--bg));
   padding: 64px 0 48px;
   text-align: center;
   border-bottom: 1px solid var(--card-border);
+  overflow: hidden;
+}
+
+.hero::before,
+.hero::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.35;
+  z-index: 0;
+  animation: float 12s ease-in-out infinite;
+}
+
+.hero::before {
+  width: 280px;
+  height: 280px;
+  background: var(--blue);
+  top: -120px;
+  left: -80px;
+}
+
+.hero::after {
+  width: 320px;
+  height: 320px;
+  background: var(--gray);
+  bottom: -160px;
+  right: -100px;
+  animation-delay: -6s;
+  animation-direction: reverse;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, 20px) scale(1.1); }
+}
+
+.hero .container {
+  position: relative;
+  z-index: 1;
 }
 
 .avatar {
@@ -50,18 +107,40 @@ a:hover {
   border-radius: 50%;
   border: 2px solid var(--blue-soft);
   margin-bottom: 16px;
+  animation: pop-in 0.6s ease both, glow-pulse 3s ease-in-out 0.6s infinite;
+}
+
+@keyframes pop-in {
+  from { opacity: 0; transform: scale(0.6) translateY(-10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(91, 141, 239, 0.4); }
+  50% { box-shadow: 0 0 0 10px rgba(91, 141, 239, 0); }
 }
 
 .hero h1 {
   margin: 0 0 8px;
   font-size: 2rem;
   color: #fff;
+  animation: fade-up 0.6s ease 0.1s both;
 }
 
 .tagline {
   color: var(--text-muted);
   margin: 0 0 20px;
   font-size: 1.05rem;
+  animation: fade-up 0.6s ease 0.2s both;
+}
+
+.hero-links {
+  animation: fade-up 0.6s ease 0.3s both;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .hero-links a {
@@ -71,11 +150,14 @@ a:hover {
   border-radius: 999px;
   color: var(--text);
   font-weight: 500;
+  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .hero-links a:hover {
   background: var(--blue-soft);
   text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(58, 95, 184, 0.4);
 }
 
 .filters {
@@ -102,18 +184,24 @@ a:hover {
   border-radius: 999px;
   cursor: pointer;
   font-size: 0.9rem;
-  transition: all 0.15s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .filter-btn:hover {
   border-color: var(--blue);
   color: var(--text);
+  transform: translateY(-1px);
+}
+
+.filter-btn:active {
+  transform: translateY(0) scale(0.96);
 }
 
 .filter-btn.active {
   background: var(--blue-soft);
   border-color: var(--blue-soft);
   color: #fff;
+  box-shadow: 0 4px 14px rgba(58, 95, 184, 0.45);
 }
 
 .project-section {
@@ -142,12 +230,27 @@ a:hover {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  transition: transform 0.15s ease, border-color 0.15s ease;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.card.in-view {
+  animation: card-reveal 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes card-reveal {
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-6px) scale(1.015);
   border-color: var(--blue);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(91, 141, 239, 0.25);
+}
+
+.card:hover h3 a {
+  text-decoration: underline;
 }
 
 .card h3 {
@@ -176,6 +279,12 @@ a:hover {
   border: 1px solid var(--card-border);
   padding: 3px 10px;
   border-radius: 999px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.card:hover .badge {
+  background: rgba(91, 141, 239, 0.12);
+  color: var(--text);
 }
 
 .stars {
@@ -183,6 +292,19 @@ a:hover {
   color: var(--blue);
   font-weight: 600;
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stars::before {
+  content: "★";
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .stars::before {
+  transform: rotate(72deg) scale(1.2);
 }
 
 .project-section.hidden {
@@ -191,6 +313,10 @@ a:hover {
 
 .card.hidden {
   display: none;
+}
+
+.project-section {
+  transition: opacity 0.25s ease;
 }
 
 footer {
