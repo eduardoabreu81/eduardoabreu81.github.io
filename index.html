@@ -9,89 +9,123 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="hero">
-  <div class="container">
+<div class="grid-overlay" aria-hidden="true"></div>
+
+<header class="hero" data-od-id="hero-section">
+  <div class="hero-bg" aria-hidden="true">
+    <span class="mesh-orb mesh-orb--1"></span>
+    <span class="mesh-orb mesh-orb--2"></span>
+    <span class="mesh-orb mesh-orb--3"></span>
+    <canvas id="particle-field"></canvas>
+  </div>
+  <div class="container hero-content">
+    <p class="kicker" data-od-id="hero-kicker">Selected repositories</p>
     <img class="avatar" src="https://avatars.githubusercontent.com/u/212580853?v=4" alt="Eduardo Abreu">
-    <h1>Eduardo Abreu</h1>
-    <p class="tagline">Building tools for Stable Diffusion and AI applications</p>
+    <h1 data-od-id="hero-title">Eduardo Abreu</h1>
+    <p class="tagline" data-od-id="hero-tagline">Building tools for Stable Diffusion and AI applications</p>
     <div class="hero-links">
-      <a href="https://github.com/eduardoabreu81" target="_blank" rel="noopener">GitHub</a>
+      <a class="magnetic" data-od-id="hero-github-link" href="https://github.com/eduardoabreu81" target="_blank" rel="noopener">
+        <span>GitHub</span>
+      </a>
     </div>
   </div>
+  <div class="scroll-cue" aria-hidden="true"><span></span></div>
 </header>
 
-<nav class="filters">
-  <div class="container">
-    <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="sd">Stable Diffusion</button>
-    <button class="filter-btn" data-filter="ia">AI Apps</button>
-    <button class="filter-btn" data-filter="outros">Other</button>
+<nav class="filters" data-od-id="filter-nav">
+  <div class="container filters-inner">
+    <span class="filter-indicator" aria-hidden="true"></span>
+    <button class="filter-btn active magnetic" data-filter="all" data-od-id="filter-all">All</button>
+    <button class="filter-btn magnetic" data-filter="sd" data-od-id="filter-sd">Stable Diffusion</button>
+    <button class="filter-btn magnetic" data-filter="ia" data-od-id="filter-ia">AI Apps</button>
+    <button class="filter-btn magnetic" data-filter="outros" data-od-id="filter-other">Other</button>
   </div>
 </nav>
 
 <main class="container">
 
-  <section id="sd" class="project-section" data-section="sd">
-    <h2>Stable Diffusion</h2>
+  <section id="sd" class="project-section" data-section="sd" data-od-id="section-sd">
+    <h2><span class="section-index">01</span>Stable Diffusion</h2>
     <div class="grid">
 
-      <article class="card" data-tag="sd">
-        <h3><a href="https://github.com/eduardoabreu81/sd-civitai-browser-neo" target="_blank" rel="noopener">sd-civitai-browser-neo</a></h3>
-        <p>Modern evolution of sd-civitai-browser-plus rebuilt from the ground up for Forge Neo — with auto-organization, disk usage dashboard, creator management, and native support for the latest model architectures (FLUX, Wan, Qwen, Pony, Illustrious, and more). Gradio 4.x only.</p>
+      <article class="card" data-tag="sd" data-size="lg" data-od-id="card-sd-civitai-browser-neo">
+        <div class="card-glow" aria-hidden="true"></div>
+        <div class="card-body">
+          <h3><a href="https://github.com/eduardoabreu81/sd-civitai-browser-neo" target="_blank" rel="noopener">sd-civitai-browser-neo</a></h3>
+          <p>Modern evolution of sd-civitai-browser-plus rebuilt from the ground up for Forge Neo — with auto-organization, disk usage dashboard, creator management, and native support for the latest model architectures (FLUX, Wan, Qwen, Pony, Illustrious, and more). Gradio 4.x only.</p>
+        </div>
         <div class="card-footer">
           <span class="badge">Stable Diffusion</span>
           <span class="stars" data-count="14">0</span>
         </div>
       </article>
 
-      <article class="card" data-tag="sd">
-        <h3><a href="https://github.com/eduardoabreu81/sd-character-finder" target="_blank" rel="noopener">sd-character-finder</a></h3>
-        <p>A Stable Diffusion WebUI (A1111/Forge) extension to browse 20,000+ Danbooru characters offline and easily send their tags directly to your prompt.</p>
+      <article class="card" data-tag="sd" data-od-id="card-sd-character-finder">
+        <div class="card-glow" aria-hidden="true"></div>
+        <div class="card-body">
+          <h3><a href="https://github.com/eduardoabreu81/sd-character-finder" target="_blank" rel="noopener">sd-character-finder</a></h3>
+          <p>A Stable Diffusion WebUI (A1111/Forge) extension to browse 20,000+ Danbooru characters offline and easily send their tags directly to your prompt.</p>
+        </div>
         <div class="card-footer">
           <span class="badge">Stable Diffusion</span>
           <span class="stars" data-count="13">0</span>
         </div>
       </article>
 
-      <article class="card" data-tag="sd">
-        <h3><a href="https://github.com/eduardoabreu81/sd-civitai-browser-ex" target="_blank" rel="noopener">sd-civitai-browser-ex</a></h3>
-        <p>Extended fork of sd-civitai-browser-plus with Neo features backported for A1111, Forge Classic, and other SD WebUI variants (Gradio 3.x compatible).</p>
+      <article class="card" data-tag="sd" data-od-id="card-sd-civitai-browser-ex">
+        <div class="card-glow" aria-hidden="true"></div>
+        <div class="card-body">
+          <h3><a href="https://github.com/eduardoabreu81/sd-civitai-browser-ex" target="_blank" rel="noopener">sd-civitai-browser-ex</a></h3>
+          <p>Extended fork of sd-civitai-browser-plus with Neo features backported for A1111, Forge Classic, and other SD WebUI variants (Gradio 3.x compatible).</p>
+        </div>
         <div class="card-footer">
           <span class="badge">Stable Diffusion</span>
           <span class="stars" data-count="2">0</span>
         </div>
       </article>
 
-      <article class="card" data-tag="sd">
-        <h3><a href="https://github.com/eduardoabreu81/sd-webui-prompt-studio-neo" target="_blank" rel="noopener">sd-webui-prompt-studio-neo</a></h3>
-        <p>Prompt composition and management studio for Stable Diffusion WebUI.</p>
+      <article class="card" data-tag="sd" data-od-id="card-sd-webui-prompt-studio-neo">
+        <div class="card-glow" aria-hidden="true"></div>
+        <div class="card-body">
+          <h3><a href="https://github.com/eduardoabreu81/sd-webui-prompt-studio-neo" target="_blank" rel="noopener">sd-webui-prompt-studio-neo</a></h3>
+          <p>Prompt composition and management studio for Stable Diffusion WebUI.</p>
+        </div>
         <div class="card-footer">
           <span class="badge">Stable Diffusion</span>
           <span class="stars" data-count="1">0</span>
         </div>
       </article>
 
-      <article class="card" data-tag="sd">
-        <h3><a href="https://github.com/eduardoabreu81/sd-webui-diagnostics" target="_blank" rel="noopener">sd-webui-diagnostics</a></h3>
-        <p>Diagnostics and health-monitoring tool for Stable Diffusion WebUI installations.</p>
+      <article class="card" data-tag="sd" data-od-id="card-sd-webui-diagnostics">
+        <div class="card-glow" aria-hidden="true"></div>
+        <div class="card-body">
+          <h3><a href="https://github.com/eduardoabreu81/sd-webui-diagnostics" target="_blank" rel="noopener">sd-webui-diagnostics</a></h3>
+          <p>Diagnostics and health-monitoring tool for Stable Diffusion WebUI installations.</p>
+        </div>
         <div class="card-footer">
           <span class="badge">Stable Diffusion</span>
           <span class="stars" data-count="1">0</span>
         </div>
       </article>
 
-      <article class="card" data-tag="sd">
-        <h3><a href="https://github.com/eduardoabreu81/sd-civitai-uploader-neo" target="_blank" rel="noopener">sd-civitai-uploader-neo</a></h3>
-        <p>Extension for publishing models and assets directly to Civitai from Stable Diffusion WebUI.</p>
+      <article class="card" data-tag="sd" data-od-id="card-sd-civitai-uploader-neo">
+        <div class="card-glow" aria-hidden="true"></div>
+        <div class="card-body">
+          <h3><a href="https://github.com/eduardoabreu81/sd-civitai-uploader-neo" target="_blank" rel="noopener">sd-civitai-uploader-neo</a></h3>
+          <p>Extension for publishing models and assets directly to Civitai from Stable Diffusion WebUI.</p>
+        </div>
         <div class="card-footer">
           <span class="badge">Stable Diffusion</span>
           <span class="stars" data-count="0">0</span>
         </div>
       </article>
 
-      <article class="card" data-tag="sd">
-        <h3><a href="https://github.com/eduardoabreu81/forge-neo-theme" target="_blank" rel="noopener">forge-neo-theme</a></h3>
-        <p>Visual theme for Forge Neo, customizing the Stable Diffusion WebUI interface.</p>
+      <article class="card" data-tag="sd" data-od-id="card-forge-neo-theme">
+        <div class="card-glow" aria-hidden="true"></div>
+        <div class="card-body">
+          <h3><a href="https://github.com/eduardoabreu81/forge-neo-theme" target="_blank" rel="noopener">forge-neo-theme</a></h3>
+          <p>Visual theme for Forge Neo, customizing the Stable Diffusion WebUI interface.</p>
+        </div>
         <div class="card-footer">
           <span class="badge">Stable Diffusion</span>
           <span class="stars" data-count="0">0</span>
@@ -101,31 +135,40 @@
     </div>
   </section>
 
-  <section id="ia" class="project-section" data-section="ia">
-    <h2>AI Apps</h2>
+  <section id="ia" class="project-section" data-section="ia" data-od-id="section-ia">
+    <h2><span class="section-index">02</span>AI Apps</h2>
     <div class="grid">
 
-      <article class="card" data-tag="ia">
-        <h3><a href="https://github.com/eduardoabreu81/minimax-agent-gui" target="_blank" rel="noopener">minimax-agent-gui</a></h3>
-        <p>Graphical interface for interacting with MiniMax agents.</p>
+      <article class="card" data-tag="ia" data-size="lg" data-od-id="card-minimax-agent-gui">
+        <div class="card-glow" aria-hidden="true"></div>
+        <div class="card-body">
+          <h3><a href="https://github.com/eduardoabreu81/minimax-agent-gui" target="_blank" rel="noopener">minimax-agent-gui</a></h3>
+          <p>Graphical interface for interacting with MiniMax agents.</p>
+        </div>
         <div class="card-footer">
           <span class="badge">AI Apps</span>
           <span class="stars" data-count="6">0</span>
         </div>
       </article>
 
-      <article class="card" data-tag="ia">
-        <h3><a href="https://github.com/eduardoabreu81/kimi-k3-gta" target="_blank" rel="noopener">kimi-k3-gta</a></h3>
-        <p>Experiment applying the Kimi K3 model to automation/agent tasks.</p>
+      <article class="card" data-tag="ia" data-od-id="card-kimi-k3-gta">
+        <div class="card-glow" aria-hidden="true"></div>
+        <div class="card-body">
+          <h3><a href="https://github.com/eduardoabreu81/kimi-k3-gta" target="_blank" rel="noopener">kimi-k3-gta</a></h3>
+          <p>Experiment applying the Kimi K3 model to automation/agent tasks.</p>
+        </div>
         <div class="card-footer">
           <span class="badge">AI Apps</span>
           <span class="stars" data-count="0">0</span>
         </div>
       </article>
 
-      <article class="card" data-tag="ia">
-        <h3><a href="https://github.com/eduardoabreu81/MoneyPrinterTurboAnime-Plus" target="_blank" rel="noopener">MoneyPrinterTurboAnime-Plus</a></h3>
-        <p>Automated AI video generation, focused on anime-style content.</p>
+      <article class="card" data-tag="ia" data-od-id="card-moneyprinterturboanime-plus">
+        <div class="card-glow" aria-hidden="true"></div>
+        <div class="card-body">
+          <h3><a href="https://github.com/eduardoabreu81/MoneyPrinterTurboAnime-Plus" target="_blank" rel="noopener">MoneyPrinterTurboAnime-Plus</a></h3>
+          <p>Automated AI video generation, focused on anime-style content.</p>
+        </div>
         <div class="card-footer">
           <span class="badge">AI Apps</span>
           <span class="stars" data-count="0">0</span>
@@ -135,22 +178,28 @@
     </div>
   </section>
 
-  <section id="outros" class="project-section" data-section="outros">
-    <h2>Other</h2>
+  <section id="outros" class="project-section" data-section="outros" data-od-id="section-outros">
+    <h2><span class="section-index">03</span>Other</h2>
     <div class="grid">
 
-      <article class="card" data-tag="outros">
-        <h3><a href="https://github.com/eduardoabreu81/mangotoon" target="_blank" rel="noopener">mangotoon</a></h3>
-        <p>Experimental project related to manga/webtoons.</p>
+      <article class="card" data-tag="outros" data-od-id="card-mangotoon">
+        <div class="card-glow" aria-hidden="true"></div>
+        <div class="card-body">
+          <h3><a href="https://github.com/eduardoabreu81/mangotoon" target="_blank" rel="noopener">mangotoon</a></h3>
+          <p>Experimental project related to manga/webtoons.</p>
+        </div>
         <div class="card-footer">
           <span class="badge">Other</span>
           <span class="stars" data-count="0">0</span>
         </div>
       </article>
 
-      <article class="card" data-tag="outros">
-        <h3><a href="https://github.com/eduardoabreu81/quillrift" target="_blank" rel="noopener">quillrift</a></h3>
-        <p>Experimental project.</p>
+      <article class="card" data-tag="outros" data-od-id="card-quillrift">
+        <div class="card-glow" aria-hidden="true"></div>
+        <div class="card-body">
+          <h3><a href="https://github.com/eduardoabreu81/quillrift" target="_blank" rel="noopener">quillrift</a></h3>
+          <p>Experimental project.</p>
+        </div>
         <div class="card-footer">
           <span class="badge">Other</span>
           <span class="stars" data-count="0">0</span>
@@ -162,7 +211,7 @@
 
 </main>
 
-<footer>
+<footer data-od-id="site-footer">
   <div class="container">
     <p>&copy; <span id="year"></span> Eduardo Abreu · <a href="https://github.com/eduardoabreu81" target="_blank" rel="noopener">github.com/eduardoabreu81</a></p>
   </div>
