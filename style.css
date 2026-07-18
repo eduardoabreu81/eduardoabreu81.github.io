@@ -221,11 +221,12 @@ a:hover {
 }
 
 .avatar {
+  display: block;
   width: 108px;
   height: 108px;
   border-radius: 50%;
   border: 3px solid var(--blue-soft);
-  margin-bottom: 24px;
+  margin: 0 auto 24px;
   animation: pop-in 0.6s ease both, glow-pulse 3s ease-in-out 0.6s infinite;
 }
 
