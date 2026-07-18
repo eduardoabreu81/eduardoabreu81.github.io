@@ -179,21 +179,6 @@ if (hero && !prefersReducedMotion) {
       orb.style.transform = "";
     });
   });
-
-  let ticking = false;
-  window.addEventListener("scroll", () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(() => {
-      const y = window.scrollY;
-      const heroHeight = hero.offsetHeight || 1;
-      const progress = Math.min(y / heroHeight, 1);
-      if (heroContent) {
-        heroContent.style.opacity = String(1 - progress * 0.8);
-      }
-      ticking = false;
-    });
-  });
 }
 
 /* ---------- Ambient particle field ---------- */

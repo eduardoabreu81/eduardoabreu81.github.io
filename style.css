@@ -66,14 +66,6 @@ body::after {
   }
 }
 
-.container {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 0 24px;
-  position: relative;
-  z-index: 2;
-}
-
 a {
   color: var(--blue-bright);
   text-decoration: none;
@@ -83,19 +75,54 @@ a:hover {
   text-decoration: underline;
 }
 
-/* ---------- Hero ---------- */
+/* ---------- Layout ---------- */
+
+.layout {
+  display: flex;
+  align-items: flex-start;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    flex-direction: column;
+  }
+}
+
+/* ---------- Hero (sticky sidebar) ---------- */
 
 .hero {
-  position: relative;
-  min-height: 92vh;
+  position: sticky;
+  top: 0;
+  flex: 0 0 40%;
+  width: 40%;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 120px 0 96px;
+  padding: 48px 40px;
   text-align: center;
-  border-bottom: 1px solid var(--card-border);
+  border-right: 1px solid var(--card-border);
   overflow: hidden;
   isolation: isolate;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    position: relative;
+    top: auto;
+    flex: 1 1 auto;
+    width: 100%;
+    height: auto;
+    min-height: 70vh;
+    padding: 72px 24px;
+    border-right: none;
+    border-bottom: 1px solid var(--card-border);
+  }
 }
 
 .hero-bg {
@@ -168,6 +195,7 @@ a:hover {
 .hero-content {
   position: relative;
   z-index: 2;
+  max-width: 340px;
   will-change: transform, opacity;
 }
 
@@ -193,11 +221,11 @@ a:hover {
 }
 
 .avatar {
-  width: 128px;
-  height: 128px;
+  width: 108px;
+  height: 108px;
   border-radius: 50%;
   border: 3px solid var(--blue-soft);
-  margin-bottom: 28px;
+  margin-bottom: 24px;
   animation: pop-in 0.6s ease both, glow-pulse 3s ease-in-out 0.6s infinite;
 }
 
@@ -212,11 +240,12 @@ a:hover {
 }
 
 .hero h1 {
-  margin: 0 0 16px;
-  font-size: clamp(3.2rem, 8vw, 5.75rem);
+  margin: 0 0 14px;
+  font-size: clamp(1.9rem, 4.4vw, 2.6rem);
   font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.03;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  word-break: break-word;
   background: linear-gradient(135deg, #ffffff 30%, var(--blue-bright) 100%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -226,9 +255,25 @@ a:hover {
 
 .tagline {
   color: var(--text-muted);
-  margin: 0 0 36px;
-  font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+  margin: 0 0 32px;
+  font-size: clamp(0.98rem, 1.6vw, 1.1rem);
+  max-width: 30ch;
+  margin-left: auto;
+  margin-right: auto;
   animation: fade-up 0.6s ease 0.2s both;
+}
+
+@media (max-width: 900px) {
+  .hero h1 {
+    font-size: clamp(2.6rem, 7vw, 3.6rem);
+  }
+  .tagline {
+    font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+    max-width: 40ch;
+  }
+  .hero-content {
+    max-width: 460px;
+  }
 }
 
 .hero-links {
@@ -243,12 +288,12 @@ a:hover {
 .hero-links a {
   position: relative;
   display: inline-block;
-  padding: 14px 34px;
+  padding: 12px 28px;
   border: 1px solid var(--blue-bright);
   border-radius: 999px;
   color: var(--text);
   font-weight: 600;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   background: rgba(91, 141, 239, 0.1);
   transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
@@ -313,6 +358,7 @@ a:hover {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+  padding: 0 32px;
 }
 
 .filter-indicator {
@@ -355,6 +401,11 @@ a:hover {
 }
 
 /* ---------- Sections ---------- */
+
+main {
+  display: block;
+  padding: 0 32px;
+}
 
 .project-section {
   padding: 56px 0 20px;
@@ -564,7 +615,7 @@ a:hover {
 footer {
   border-top: 1px solid var(--card-border);
   margin-top: 56px;
-  padding: 36px 0;
+  padding: 36px 32px;
   text-align: center;
   color: var(--text-muted);
   font-size: 0.9rem;
