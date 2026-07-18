@@ -74,6 +74,59 @@ function animateCount(el) {
   requestAnimationFrame(step);
 }
 
+/* ---------- Live star counts from GitHub ---------- */
+
+function getCachedStars(repo) {
+  try {
+    const raw = sessionStorage.getItem(`stars:${repo}`);
+    return raw === null ? null : parseInt(raw, 10);
+  } catch {
+    return null;
+  }
+}
+
+function setCachedStars(repo, count) {
+  try {
+    sessionStorage.setItem(`stars:${repo}`, String(count));
+  } catch {
+    /* storage unavailable, ignore */
+  }
+}
+
+function applyStarCount(el, count) {
+  el.dataset.count = String(count);
+  const card = el.closest(".card");
+  if (card && card.classList.contains("in-view")) {
+    el.textContent = count;
+  }
+}
+
+async function refreshStarCount(el) {
+  const repo = el.dataset.repo;
+  if (!repo) return;
+
+  const cached = getCachedStars(repo);
+  if (cached !== null) {
+    applyStarCount(el, cached);
+    return;
+  }
+
+  try {
+    const res = await fetch(`https://api.github.com/repos/${repo}`, {
+      headers: { Accept: "application/vnd.github+json" },
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (typeof data.stargazers_count !== "number") return;
+    setCachedStars(repo, data.stargazers_count);
+    applyStarCount(el, data.stargazers_count);
+  } catch {
+    /* offline or rate-limited: keep the static fallback already in the markup */
+  }
+}
+
+document.querySelectorAll(".stars[data-repo]").forEach(refreshStarCount);
+
 /* ---------- Staggered scroll reveal ---------- */
 
 const cards = document.querySelectorAll(".card");
