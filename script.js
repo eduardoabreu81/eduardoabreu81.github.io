@@ -24,7 +24,9 @@ function moveIndicatorTo(btn) {
   const navRect = nav.getBoundingClientRect();
   const btnRect = btn.getBoundingClientRect();
   filterIndicator.style.width = `${btnRect.width}px`;
-  filterIndicator.style.transform = `translateX(${btnRect.left - navRect.left}px)`;
+  filterIndicator.style.height = `${btnRect.height}px`;
+  filterIndicator.style.transform =
+    `translate(${btnRect.left - navRect.left}px, ${btnRect.top - navRect.top}px)`;
 }
 
 buttons.forEach((btn) => {
@@ -41,14 +43,13 @@ buttons.forEach((btn) => {
   });
 });
 
-window.addEventListener("load", () => {
-  const active = document.querySelector(".filter-btn.active");
-  moveIndicatorTo(active);
-});
-window.addEventListener("resize", () => {
-  const active = document.querySelector(".filter-btn.active");
-  moveIndicatorTo(active);
-});
+function syncIndicator() {
+  moveIndicatorTo(document.querySelector(".filter-btn.active"));
+}
+
+syncIndicator();
+window.addEventListener("load", syncIndicator);
+window.addEventListener("resize", syncIndicator);
 
 /* ---------- Star count-up ---------- */
 
@@ -126,6 +127,51 @@ async function refreshStarCount(el) {
 }
 
 document.querySelectorAll(".stars[data-repo]").forEach(refreshStarCount);
+
+/* ---------- Live package version from npm ---------- */
+
+function getCachedVersion(pkg) {
+  try {
+    return sessionStorage.getItem(`npm:${pkg}`);
+  } catch {
+    return null;
+  }
+}
+
+function setCachedVersion(pkg, version) {
+  try {
+    sessionStorage.setItem(`npm:${pkg}`, version);
+  } catch {
+    /* storage unavailable, ignore */
+  }
+}
+
+async function refreshNpmVersion(el) {
+  const pkg = el.dataset.npmPackage;
+  if (!pkg) return;
+
+  const cached = getCachedVersion(pkg);
+  if (cached !== null) {
+    el.textContent = `v${cached}`;
+    return;
+  }
+
+  try {
+    const res = await fetch(`https://registry.npmjs.org/${encodeURIComponent(pkg)}`, {
+      headers: { Accept: "application/vnd.npm.install-v1+json" },
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    const version = data["dist-tags"] && data["dist-tags"].latest;
+    if (typeof version !== "string") return;
+    setCachedVersion(pkg, version);
+    el.textContent = `v${version}`;
+  } catch {
+    /* offline or unreachable: keep the static fallback already in the markup */
+  }
+}
+
+document.querySelectorAll(".npm-version[data-npm-package]").forEach(refreshNpmVersion);
 
 /* ---------- Staggered scroll reveal ---------- */
 

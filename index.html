@@ -3,8 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>eduardoabreu81 — Projects</title>
-<meta name="description" content="Portfolio of eduardoabreu81's projects: Stable Diffusion tools, AI apps, and other experiments.">
+<title>eduardoabreu81 — Developer tooling &amp; AI projects</title>
+<meta name="description" content="Projects by eduardoabreu81: livewiki (code-anchored living documentation), Stable Diffusion extensions for Forge Neo, and AI applications.">
+<link rel="canonical" href="https://eduardoabreu81.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://eduardoabreu81.github.io/">
+<meta property="og:title" content="eduardoabreu81 — Developer tooling &amp; AI projects">
+<meta property="og:description" content="livewiki: code-anchored documentation that knows when it is stale. Plus Stable Diffusion extensions for Forge Neo and AI applications.">
+<meta property="og:image" content="https://eduardoabreu81.github.io/assets/livewiki-viewer.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="eduardoabreu81 — Developer tooling &amp; AI projects">
+<meta name="twitter:description" content="livewiki: code-anchored documentation that knows when it is stale. Plus Stable Diffusion extensions for Forge Neo and AI applications.">
+<meta name="twitter:image" content="https://eduardoabreu81.github.io/assets/livewiki-viewer.jpg">
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -24,10 +34,13 @@
     <p class="kicker" data-od-id="hero-kicker">Selected repositories</p>
     <img class="avatar" src="https://avatars.githubusercontent.com/u/212580853?v=4" alt="eduardoabreu81">
     <h1 data-od-id="hero-title">eduardoabreu81</h1>
-    <p class="tagline" data-od-id="hero-tagline">Building tools for Stable Diffusion and AI applications</p>
+    <p class="tagline" data-od-id="hero-tagline">Developer tooling for AI agents, documentation and Stable Diffusion</p>
     <div class="hero-links">
       <a class="magnetic" data-od-id="hero-github-link" href="https://github.com/eduardoabreu81" target="_blank" rel="noopener">
         <span>GitHub</span>
+      </a>
+      <a class="btn--ghost magnetic" data-od-id="hero-npm-link" href="https://www.npmjs.com/package/@livewiki/cli" target="_blank" rel="noopener">
+        <span>npm</span>
       </a>
     </div>
   </div>
@@ -39,6 +52,7 @@
   <div class="filters-inner">
     <span class="filter-indicator" aria-hidden="true"></span>
     <button class="filter-btn active magnetic" data-filter="all" data-od-id="filter-all">All</button>
+    <button class="filter-btn magnetic" data-filter="dev" data-od-id="filter-dev">Dev Tools</button>
     <button class="filter-btn magnetic" data-filter="sd" data-od-id="filter-sd">Stable Diffusion</button>
     <button class="filter-btn magnetic" data-filter="ia" data-od-id="filter-ia">AI Apps</button>
     <button class="filter-btn magnetic" data-filter="outros" data-od-id="filter-other">Other</button>
@@ -46,6 +60,38 @@
 </nav>
 
 <main>
+
+  <section id="featured" class="project-section featured" data-section="dev" data-od-id="section-featured">
+    <h2><span class="section-flag">Featured</span>Dev Tools</h2>
+    <div class="grid">
+
+      <article class="card card--featured" data-tag="dev" data-size="lg" data-od-id="card-livewiki">
+        <div class="card-glow" aria-hidden="true"></div>
+        <figure class="featured-media">
+          <img src="assets/livewiki-viewer.jpg" width="1507" height="760" loading="lazy" decoding="async"
+               alt="The livewiki offline viewer showing a generated quickstart page with a grouped sidebar and search">
+        </figure>
+        <div class="featured-content">
+          <div class="card-body">
+            <h3><a href="https://github.com/eduardoabreu81/livewiki" target="_blank" rel="noopener">livewiki</a></h3>
+            <p class="featured-pitch">Code-anchored documentation that knows when it is stale.</p>
+            <p>Turns a repository into a Markdown wiki where every code reference is anchored to a real indexed symbol. An LLM writes the prose; livewiki plans the pages, runs deterministic anti-hallucination checks on what the model wrote, tracks which anchored symbols drifted, and preserves your edits.</p>
+          </div>
+          <ul class="meta-list">
+            <li class="badge badge--accent"><span class="npm-version" data-npm-package="@livewiki/cli">v0.3.1</span> · @livewiki/cli</li>
+            <li class="badge">MCP server</li>
+            <li class="badge">TypeScript</li>
+            <li class="badge">MIT</li>
+          </ul>
+          <div class="featured-links">
+            <a class="btn magnetic" href="https://github.com/eduardoabreu81/livewiki" target="_blank" rel="noopener"><span>GitHub</span></a>
+            <a class="btn btn--ghost magnetic" href="https://www.npmjs.com/package/@livewiki/cli" target="_blank" rel="noopener"><span>npm</span></a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
 
   <section id="sd" class="project-section" data-section="sd" data-od-id="section-sd">
     <h2><span class="section-index">01</span>Stable Diffusion</h2>
@@ -59,7 +105,7 @@
         </div>
         <div class="card-footer">
           <span class="badge">Stable Diffusion</span>
-          <span class="stars" data-repo="eduardoabreu81/sd-webui-prompt-all-in-one-neo" data-count="32">0</span>
+          <span class="stars" data-repo="eduardoabreu81/sd-webui-prompt-all-in-one-neo" data-count="35">0</span>
         </div>
       </article>
 
@@ -71,7 +117,7 @@
         </div>
         <div class="card-footer">
           <span class="badge">Stable Diffusion</span>
-          <span class="stars" data-repo="eduardoabreu81/sd-civitai-browser-neo" data-count="14">0</span>
+          <span class="stars" data-repo="eduardoabreu81/sd-civitai-browser-neo" data-count="17">0</span>
         </div>
       </article>
 
@@ -83,7 +129,7 @@
         </div>
         <div class="card-footer">
           <span class="badge">Stable Diffusion</span>
-          <span class="stars" data-repo="eduardoabreu81/sd-webui-tagcomplete-neo" data-count="21">0</span>
+          <span class="stars" data-repo="eduardoabreu81/sd-webui-tagcomplete-neo" data-count="23">0</span>
         </div>
       </article>
 
@@ -95,7 +141,31 @@
         </div>
         <div class="card-footer">
           <span class="badge">Stable Diffusion</span>
-          <span class="stars" data-repo="eduardoabreu81/sd-character-finder" data-count="13">0</span>
+          <span class="stars" data-repo="eduardoabreu81/sd-character-finder" data-count="14">0</span>
+        </div>
+      </article>
+
+      <article class="card" data-tag="sd" data-od-id="card-sd-webui-prompt-studio-neo">
+        <div class="card-glow" aria-hidden="true"></div>
+        <div class="card-body">
+          <h3><a href="https://github.com/eduardoabreu81/sd-webui-prompt-studio-neo" target="_blank" rel="noopener">sd-webui-prompt-studio-neo</a></h3>
+          <p>The all-in-one prompt workstation for Forge Neo: a unified fork that merges the prompt editor and the tag autocompletion into a single extension — tag chips, translation, history, favorites, quality presets, Danbooru/e621 autocomplete, and LoRA trigger word injection.</p>
+        </div>
+        <div class="card-footer">
+          <span class="badge">Stable Diffusion</span>
+          <span class="stars" data-repo="eduardoabreu81/sd-webui-prompt-studio-neo" data-count="2">0</span>
+        </div>
+      </article>
+
+      <article class="card" data-tag="sd" data-od-id="card-sd-wildcard-composer-neo">
+        <div class="card-glow" aria-hidden="true"></div>
+        <div class="card-body">
+          <h3><a href="https://github.com/eduardoabreu81/sd-wildcard-composer-neo" target="_blank" rel="noopener">sd-wildcard-composer-neo</a></h3>
+          <p>A Category → Item picker for inserting <code>__wildcard__</code> tokens into the prompt on Forge Neo, instead of hunting through folders or typing them by hand. Renders inline under Generation in txt2img/img2img. Pairs with sd-dynamic-prompts, which resolves the tokens at generation time.</p>
+        </div>
+        <div class="card-footer">
+          <span class="badge">Stable Diffusion</span>
+          <span class="stars" data-repo="eduardoabreu81/sd-wildcard-composer-neo" data-count="0">0</span>
         </div>
       </article>
 
@@ -111,23 +181,11 @@
         </div>
       </article>
 
-      <article class="card" data-tag="sd" data-od-id="card-sd-webui-prompt-studio-neo">
-        <div class="card-glow" aria-hidden="true"></div>
-        <div class="card-body">
-          <h3><a href="https://github.com/eduardoabreu81/sd-webui-prompt-studio-neo" target="_blank" rel="noopener">sd-webui-prompt-studio-neo</a></h3>
-          <p>Prompt composition and management studio for Stable Diffusion WebUI.</p>
-        </div>
-        <div class="card-footer">
-          <span class="badge">Stable Diffusion</span>
-          <span class="stars" data-repo="eduardoabreu81/sd-webui-prompt-studio-neo" data-count="1">0</span>
-        </div>
-      </article>
-
       <article class="card" data-tag="sd" data-od-id="card-sd-webui-diagnostics">
         <div class="card-glow" aria-hidden="true"></div>
         <div class="card-body">
           <h3><a href="https://github.com/eduardoabreu81/sd-webui-diagnostics" target="_blank" rel="noopener">sd-webui-diagnostics</a></h3>
-          <p>Diagnostics and health-monitoring tool for Stable Diffusion WebUI installations.</p>
+          <p>A lightweight frontend profiler that runs inside your Stable Diffusion WebUI tab: extension startup times, JavaScript memory leaks, slow event handlers, network latency, frame drops, and UI blocking events — in real time, with no external tools.</p>
         </div>
         <div class="card-footer">
           <span class="badge">Stable Diffusion</span>
@@ -139,7 +197,7 @@
         <div class="card-glow" aria-hidden="true"></div>
         <div class="card-body">
           <h3><a href="https://github.com/eduardoabreu81/sd-civitai-uploader-neo" target="_blank" rel="noopener">sd-civitai-uploader-neo</a></h3>
-          <p>Extension for publishing models and assets directly to Civitai from Stable Diffusion WebUI.</p>
+          <p>Browse, compare, and upload your generated images straight to CivitAI from inside Forge Neo — with metadata-aware captions, drag-and-drop curation, and one-click posting through the official CivitAI MCP server.</p>
         </div>
         <div class="card-footer">
           <span class="badge">Stable Diffusion</span>
@@ -151,7 +209,7 @@
         <div class="card-glow" aria-hidden="true"></div>
         <div class="card-body">
           <h3><a href="https://github.com/eduardoabreu81/forge-neo-theme" target="_blank" rel="noopener">forge-neo-theme</a></h3>
-          <p>Visual theme for Forge Neo, customizing the Stable Diffusion WebUI interface.</p>
+          <p>A modular visual theme for Forge Neo — flat cards, accent colors, and toggleable modules restyling dropdowns, scrollbars, tables, and tag autocomplete. Built to sit alongside sd-civitai-browser-neo without fighting it over the Extra Networks cards.</p>
         </div>
         <div class="card-footer">
           <span class="badge">Stable Diffusion</span>
@@ -182,23 +240,23 @@
         <div class="card-glow" aria-hidden="true"></div>
         <div class="card-body">
           <h3><a href="https://github.com/eduardoabreu81/minimax-agent-gui" target="_blank" rel="noopener">minimax-agent-gui</a></h3>
-          <p>Graphical interface for interacting with MiniMax agents.</p>
+          <p>MiniMax Studio — everything MiniMax can do in a single desktop app for Windows, macOS, and Linux: chat, image, video, music and speech generation, a real code workspace, and memory that carries your work from one session to the next.</p>
         </div>
         <div class="card-footer">
           <span class="badge">AI Apps</span>
-          <span class="stars" data-repo="eduardoabreu81/minimax-agent-gui" data-count="6">0</span>
+          <span class="stars" data-repo="eduardoabreu81/minimax-agent-gui" data-count="8">0</span>
         </div>
       </article>
 
-      <article class="card" data-tag="ia" data-od-id="card-kimi-k3-gta">
+      <article class="card" data-tag="ia" data-od-id="card-quillrift">
         <div class="card-glow" aria-hidden="true"></div>
         <div class="card-body">
-          <h3><a href="https://github.com/eduardoabreu81/kimi-k3-gta" target="_blank" rel="noopener">kimi-k3-gta</a></h3>
-          <p>Experiment applying the Kimi K3 model to automation/agent tasks.</p>
+          <h3><a href="https://github.com/eduardoabreu81/quillrift" target="_blank" rel="noopener">quillrift</a></h3>
+          <p>Open source, multilingual AI writing studio for long-form fiction — automatic snapshots before every AI edit, provider freedom (OpenAI, Anthropic, Ollama, any OpenAI-compatible endpoint), Story Bible, character dossiers, and timeline.</p>
         </div>
         <div class="card-footer">
           <span class="badge">AI Apps</span>
-          <span class="stars" data-repo="eduardoabreu81/kimi-k3-gta" data-count="0">0</span>
+          <span class="stars" data-repo="eduardoabreu81/quillrift" data-count="0">0</span>
         </div>
       </article>
 
@@ -209,27 +267,27 @@
     <h2><span class="section-index">03</span>Other</h2>
     <div class="grid">
 
+      <article class="card" data-tag="outros" data-od-id="card-kimi-k3-gta">
+        <div class="card-glow" aria-hidden="true"></div>
+        <div class="card-body">
+          <h3><a href="https://github.com/eduardoabreu81/kimi-k3-gta" target="_blank" rel="noopener">kimi-k3-gta</a></h3>
+          <p>A browser-based top-down mini-game inspired by the classic GTA 1/2 era: open night city, stealable cars with drift physics, a 0–5 star wanted system, delivery missions, minimap, CRT mode, and synthesized WebAudio SFX. <a href="https://eduardoabreu81.github.io/kimi-k3-gta/" target="_blank" rel="noopener">Play it in the browser →</a></p>
+        </div>
+        <div class="card-footer">
+          <span class="badge">Other</span>
+          <span class="stars" data-repo="eduardoabreu81/kimi-k3-gta" data-count="0">0</span>
+        </div>
+      </article>
+
       <article class="card" data-tag="outros" data-od-id="card-mangotoon">
         <div class="card-glow" aria-hidden="true"></div>
         <div class="card-body">
           <h3><a href="https://github.com/eduardoabreu81/mangotoon" target="_blank" rel="noopener">mangotoon</a></h3>
-          <p>Experimental project related to manga/webtoons.</p>
+          <p>A local-first manga reader and downloader built with FastAPI and vanilla JS. Fetch metadata from a source URL, download chapters for offline reading, and track progress — stored locally in JSON files. No cloud sync, no accounts, no database.</p>
         </div>
         <div class="card-footer">
           <span class="badge">Other</span>
           <span class="stars" data-repo="eduardoabreu81/mangotoon" data-count="0">0</span>
-        </div>
-      </article>
-
-      <article class="card" data-tag="outros" data-od-id="card-quillrift">
-        <div class="card-glow" aria-hidden="true"></div>
-        <div class="card-body">
-          <h3><a href="https://github.com/eduardoabreu81/quillrift" target="_blank" rel="noopener">quillrift</a></h3>
-          <p>Experimental project.</p>
-        </div>
-        <div class="card-footer">
-          <span class="badge">Other</span>
-          <span class="stars" data-repo="eduardoabreu81/quillrift" data-count="0">0</span>
         </div>
       </article>
 
