@@ -1,360 +1,115 @@
+"use strict";
 document.getElementById("year").textContent = new Date().getFullYear();
-
-const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-const finePointerQuery = window.matchMedia("(pointer: fine)");
-let prefersReducedMotion = reduceMotionQuery.matches;
-let hasFinePointer = finePointerQuery.matches;
-
-reduceMotionQuery.addEventListener("change", (e) => {
-  prefersReducedMotion = e.matches;
-});
-finePointerQuery.addEventListener("change", (e) => {
-  hasFinePointer = e.matches;
-});
-
-/* ---------- Filters with sliding pill indicator ---------- */
-
-const buttons = document.querySelectorAll(".filter-btn");
-const sections = document.querySelectorAll(".project-section");
-const filterIndicator = document.querySelector(".filter-indicator");
-
-function moveIndicatorTo(btn) {
-  if (!filterIndicator || !btn) return;
-  const nav = btn.parentElement;
-  const navRect = nav.getBoundingClientRect();
-  const btnRect = btn.getBoundingClientRect();
-  filterIndicator.style.width = `${btnRect.width}px`;
-  filterIndicator.style.height = `${btnRect.height}px`;
-  filterIndicator.style.transform =
-    `translate(${btnRect.left - navRect.left}px, ${btnRect.top - navRect.top}px)`;
+const searchInput = document.getElementById("repo-search");
+const filterButtons = [...document.querySelectorAll(".filter-btn")];
+const repositoryItems = [...document.querySelectorAll(".repo-item")];
+const resultStatus = document.getElementById("results-count");
+const emptyState = document.getElementById("empty-state");
+const clearSearchButton = document.getElementById("clear-search");
+let selectedCategory = "all";
+function normalizeSearch(text) {
+ return text.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 }
-
-buttons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    buttons.forEach((b) => b.classList.remove("active"));
-    btn.classList.add("active");
-    moveIndicatorTo(btn);
-
-    const filter = btn.dataset.filter;
-
-    sections.forEach((section) => {
-      section.classList.toggle("hidden", filter !== "all" && section.dataset.section !== filter);
-    });
+const searchIndex = new Map(repositoryItems.map((item) => [item, normalizeSearch(item.textContent)]));
+function sortRepositoryItems() {
+ const orderedItems = [...repositoryItems];
+ if (selectedCategory === "all") {
+  orderedItems.sort((a, b) => {
+   const categoryPriority = Number(b.dataset.category === "sd") - Number(a.dataset.category === "sd");
+   const starDifference = Number(b.querySelector(".stars").dataset.count) - Number(a.querySelector(".stars").dataset.count);
+   return categoryPriority || starDifference;
   });
+ } else if (selectedCategory === "sd") {
+  orderedItems.sort((a, b) => a.querySelector(".repo-link").firstChild.textContent.trim().localeCompare(
+   b.querySelector(".repo-link").firstChild.textContent.trim(), "en", { sensitivity: "base" }
+  ));
+ }
+ document.getElementById("repo-list").append(...orderedItems);
+}
+function updateResults() {
+ const terms = normalizeSearch(searchInput.value).split(" ").filter(Boolean);
+ let visibleCount = 0;
+ repositoryItems.forEach((item) => {
+  const categoryMatches = selectedCategory === "all" || item.dataset.category === selectedCategory;
+  const textMatches = terms.every((term) => searchIndex.get(item).includes(term));
+  item.hidden = !(categoryMatches && textMatches);
+  if (!item.hidden) visibleCount++;
+ });
+ filterButtons.forEach((button) => {
+  const active = button.dataset.filter === selectedCategory;
+  button.classList.toggle("active", active);
+  button.setAttribute("aria-pressed", String(active));
+ });
+ resultStatus.textContent = `${visibleCount} ${visibleCount === 1 ? "repository" : "repositories"}`;
+ emptyState.hidden = visibleCount > 0;
+ clearSearchButton.hidden = searchInput.value.length === 0;
+ sortRepositoryItems();
+}
+filterButtons.forEach((button) => button.addEventListener("click", () => {
+ selectedCategory = button.dataset.filter;
+ updateResults();
+}));
+searchInput.addEventListener("input", updateResults);
+clearSearchButton.addEventListener("click", () => {
+ searchInput.value = "";
+ updateResults();
+ searchInput.focus();
 });
-
-function syncIndicator() {
-  moveIndicatorTo(document.querySelector(".filter-btn.active"));
+document.getElementById("reset-filters").addEventListener("click", () => {
+ selectedCategory = "all";
+ searchInput.value = "";
+ updateResults();
+ searchInput.focus();
+});
+updateResults();
+document.getElementById("catalog-tools").hidden = false;
+/* One public request refreshes stats; the project selection remains editorial. */
+function readCache(key) {
+ try { return JSON.parse(sessionStorage.getItem(key)); } catch { return null; }
 }
-
-syncIndicator();
-window.addEventListener("load", syncIndicator);
-window.addEventListener("resize", syncIndicator);
-
-/* ---------- Star count-up ---------- */
-
-function animateCount(el) {
-  const target = parseInt(el.dataset.count, 10) || 0;
-  if (target === 0) return;
-
-  if (prefersReducedMotion) {
-    el.textContent = target;
-    return;
-  }
-
-  const duration = 800;
-  const start = performance.now();
-
-  function step(now) {
-    const progress = Math.min((now - start) / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3);
-    el.textContent = Math.round(eased * target);
-    if (progress < 1) requestAnimationFrame(step);
-  }
-
-  requestAnimationFrame(step);
+function writeCache(key, value) {
+ try { sessionStorage.setItem(key, JSON.stringify(value)); } catch { /* Storage is optional. */ }
 }
-
-/* ---------- Live star counts from GitHub ---------- */
-
-function getCachedStars(repo) {
-  try {
-    const raw = sessionStorage.getItem(`stars:${repo}`);
-    return raw === null ? null : parseInt(raw, 10);
-  } catch {
-    return null;
-  }
+function applyRepositoryStats(repositories) {
+ if (!Array.isArray(repositories)) return;
+ const counts = new Map(repositories.filter((repo) => typeof repo.name === "string" && Number.isInteger(repo.stargazers_count) && repo.stargazers_count >= 0).map((repo) => [repo.name, repo.stargazers_count]));
+ document.querySelectorAll(".stars[data-repo]").forEach((element) => {
+  const name = element.dataset.repo.split("/")[1];
+  if (!counts.has(name)) return;
+  const count = counts.get(name);
+  element.dataset.count = String(count);
+  element.querySelector(".star-value").textContent = String(count);
+  element.setAttribute("aria-label", `${count} GitHub stars`);
+ });
+ sortRepositoryItems();
 }
-
-function setCachedStars(repo, count) {
-  try {
-    sessionStorage.setItem(`stars:${repo}`, String(count));
-  } catch {
-    /* storage unavailable, ignore */
-  }
+async function refreshRepositoryStats() {
+ const key = "public-repositories:eduardoabreu81";
+ const cached = readCache(key);
+ if (Array.isArray(cached)) { applyRepositoryStats(cached); return; }
+ try {
+  const response = await fetch("https://api.github.com/users/eduardoabreu81/repos?per_page=100&type=owner", { headers: { Accept: "application/vnd.github+json" } });
+  if (!response.ok) return;
+  const repositories = await response.json();
+  if (!Array.isArray(repositories)) return;
+  const stats = repositories.map(({ name, stargazers_count }) => ({ name, stargazers_count }));
+  writeCache(key, stats);
+  applyRepositoryStats(stats);
+ } catch { /* Keep the real static counts when offline or rate-limited. */ }
 }
-
-function applyStarCount(el, count) {
-  el.dataset.count = String(count);
-  const card = el.closest(".card");
-  if (card && card.classList.contains("in-view")) {
-    el.textContent = count;
-  }
+async function refreshNpmVersion(element) {
+ const pkg = element.dataset.npmPackage;
+ const key = `npm-version:${pkg}`;
+ const cached = readCache(key);
+ if (typeof cached === "string" && cached.length > 0) { element.textContent = `v${cached}`; return; }
+ try {
+  const response = await fetch(`https://registry.npmjs.org/${encodeURIComponent(pkg)}/latest`, { headers: { Accept: "application/json" } });
+  if (!response.ok) return;
+  const data = await response.json();
+  if (typeof data.version !== "string") return;
+  element.textContent = `v${data.version}`;
+  writeCache(key, data.version);
+ } catch { /* Keep the static package version when unavailable. */ }
 }
-
-async function refreshStarCount(el) {
-  const repo = el.dataset.repo;
-  if (!repo) return;
-
-  const cached = getCachedStars(repo);
-  if (cached !== null) {
-    applyStarCount(el, cached);
-    return;
-  }
-
-  try {
-    const res = await fetch(`https://api.github.com/repos/${repo}`, {
-      headers: { Accept: "application/vnd.github+json" },
-    });
-    if (!res.ok) return;
-    const data = await res.json();
-    if (typeof data.stargazers_count !== "number") return;
-    setCachedStars(repo, data.stargazers_count);
-    applyStarCount(el, data.stargazers_count);
-  } catch {
-    /* offline or rate-limited: keep the static fallback already in the markup */
-  }
-}
-
-document.querySelectorAll(".stars[data-repo]").forEach(refreshStarCount);
-
-/* ---------- Live package version from npm ---------- */
-
-function getCachedVersion(pkg) {
-  try {
-    return sessionStorage.getItem(`npm:${pkg}`);
-  } catch {
-    return null;
-  }
-}
-
-function setCachedVersion(pkg, version) {
-  try {
-    sessionStorage.setItem(`npm:${pkg}`, version);
-  } catch {
-    /* storage unavailable, ignore */
-  }
-}
-
-async function refreshNpmVersion(el) {
-  const pkg = el.dataset.npmPackage;
-  if (!pkg) return;
-
-  const cached = getCachedVersion(pkg);
-  if (cached !== null) {
-    el.textContent = `v${cached}`;
-    return;
-  }
-
-  try {
-    const res = await fetch(`https://registry.npmjs.org/${encodeURIComponent(pkg)}`, {
-      headers: { Accept: "application/vnd.npm.install-v1+json" },
-    });
-    if (!res.ok) return;
-    const data = await res.json();
-    const version = data["dist-tags"] && data["dist-tags"].latest;
-    if (typeof version !== "string") return;
-    setCachedVersion(pkg, version);
-    el.textContent = `v${version}`;
-  } catch {
-    /* offline or unreachable: keep the static fallback already in the markup */
-  }
-}
-
+refreshRepositoryStats();
 document.querySelectorAll(".npm-version[data-npm-package]").forEach(refreshNpmVersion);
-
-/* ---------- Staggered scroll reveal ---------- */
-
-const cards = document.querySelectorAll(".card");
-
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      const card = entry.target;
-      card.classList.add("in-view");
-      const starsEl = card.querySelector(".stars");
-      if (starsEl) animateCount(starsEl);
-      observer.unobserve(card);
-    });
-  },
-  { threshold: 0.15 }
-);
-
-cards.forEach((card, index) => {
-  card.style.animationDelay = prefersReducedMotion ? "0ms" : `${(index % 6) * 60}ms`;
-  observer.observe(card);
-});
-
-/* ---------- Card tilt + cursor-aware glow ---------- */
-
-cards.forEach((card) => {
-  let rafId = null;
-
-  card.addEventListener("pointermove", (e) => {
-    if (prefersReducedMotion || !hasFinePointer) return;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const px = x / rect.width;
-    const py = y / rect.height;
-
-    if (rafId) cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(() => {
-      const rotateY = (px - 0.5) * 8;
-      const rotateX = (0.5 - py) * 8;
-      card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
-      card.style.setProperty("--mx", `${px * 100}%`);
-      card.style.setProperty("--my", `${py * 100}%`);
-    });
-  });
-
-  card.addEventListener("pointerleave", () => {
-    if (rafId) cancelAnimationFrame(rafId);
-    card.style.transform = "";
-  });
-});
-
-/* ---------- Magnetic buttons ---------- */
-
-const magneticEls = document.querySelectorAll(".magnetic");
-
-magneticEls.forEach((el) => {
-  let rafId = null;
-
-  el.addEventListener("pointermove", (e) => {
-    if (prefersReducedMotion || !hasFinePointer) return;
-    const rect = el.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-
-    if (rafId) cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(() => {
-      el.style.transform = `translate(${x * 0.25}px, ${y * 0.3}px)`;
-    });
-  });
-
-  el.addEventListener("pointerleave", () => {
-    if (rafId) cancelAnimationFrame(rafId);
-    el.style.transform = "";
-  });
-});
-
-/* ---------- Hero parallax (mouse + scroll) ---------- */
-
-const hero = document.querySelector(".hero");
-const heroContent = document.querySelector(".hero-content");
-const meshOrbs = document.querySelectorAll(".mesh-orb");
-
-if (hero && !prefersReducedMotion) {
-  hero.addEventListener("pointermove", (e) => {
-    if (!hasFinePointer) return;
-    const rect = hero.getBoundingClientRect();
-    const px = (e.clientX - rect.left) / rect.width - 0.5;
-    const py = (e.clientY - rect.top) / rect.height - 0.5;
-
-    if (heroContent) {
-      heroContent.style.transform = `translate(${px * 10}px, ${py * 8}px)`;
-    }
-    meshOrbs.forEach((orb, i) => {
-      const depth = (i + 1) * 14;
-      orb.style.transform = `translate(${px * depth}px, ${py * depth}px)`;
-    });
-  });
-
-  hero.addEventListener("pointerleave", () => {
-    if (heroContent) heroContent.style.transform = "";
-    meshOrbs.forEach((orb) => {
-      orb.style.transform = "";
-    });
-  });
-}
-
-/* ---------- Ambient particle field ---------- */
-
-const canvas = document.getElementById("particle-field");
-
-if (canvas) {
-  const ctx = canvas.getContext("2d");
-  let particles = [];
-  let width = 0;
-  let height = 0;
-  let animationId = null;
-
-  function resizeCanvas() {
-    const rect = canvas.parentElement.getBoundingClientRect();
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    width = rect.width;
-    height = rect.height;
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-
-  function createParticles() {
-    const count = Math.round((width * height) / 16000);
-    particles = Array.from({ length: Math.min(count, 70) }, () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      r: Math.random() * 1.6 + 0.4,
-      vx: (Math.random() - 0.5) * 0.15,
-      vy: (Math.random() - 0.5) * 0.15,
-      alpha: Math.random() * 0.5 + 0.2,
-    }));
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, width, height);
-    particles.forEach((p) => {
-      p.x += p.vx;
-      p.y += p.vy;
-
-      if (p.x < 0) p.x = width;
-      if (p.x > width) p.x = 0;
-      if (p.y < 0) p.y = height;
-      if (p.y > height) p.y = 0;
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(127, 168, 255, ${p.alpha})`;
-      ctx.fill();
-    });
-    animationId = requestAnimationFrame(draw);
-  }
-
-  function drawStatic() {
-    ctx.clearRect(0, 0, width, height);
-    particles.forEach((p) => {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(127, 168, 255, ${p.alpha})`;
-      ctx.fill();
-    });
-  }
-
-  function init() {
-    resizeCanvas();
-    createParticles();
-    if (animationId) cancelAnimationFrame(animationId);
-    if (prefersReducedMotion) {
-      drawStatic();
-    } else {
-      draw();
-    }
-  }
-
-  init();
-  window.addEventListener("resize", init);
-}
