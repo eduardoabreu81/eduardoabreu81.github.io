@@ -1,0 +1,89 @@
+name: Bug report
+description: Something in one of the projects, or on this website, is broken.
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A reproducible report is worth far more than a description of the symptom. Console output and the exact steps help the most.
+  - type: dropdown
+    id: project
+    attributes:
+      label: Project
+      options:
+        - Character Finder — sd-character-finder
+        - CivitAI Browser EX — sd-civitai-browser-ex
+        - CivitAI Browser Neo — sd-civitai-browser-neo
+        - CivitAI Uploader Neo — sd-civitai-uploader-neo
+        - DLSS 5 for Forge — sd-forge-dlss5
+        - Forge Neo Extensions Index — forge-neo-extensions
+        - Forge Neo Theme — forge-neo-theme
+        - forgeneo-mcp — forgeneo-mcp
+        - GTA Mini — kimi-k3-gta
+        - Iris 3B for Forge Neo — iris-3b-forge-neo
+        - livewiki — livewiki
+        - LTX Video for Forge Neo — ltx-video-forge-neo
+        - mangotoon — mangotoon
+        - Merge Studio — sd-webui-merge-studio
+        - MiniMax H3 for Forge Neo — minimax-h3-forge-neo
+        - MiniMax Studio — minimax-agent-gui
+        - Prompt All-in-One Neo — sd-webui-prompt-all-in-one-neo
+        - Prompt Studio Neo — sd-webui-prompt-studio-neo
+        - Quillrift — quillrift
+        - Qwen-Image 2.1 for Forge Neo — qwen2.1-forge-neo
+        - State Manager Neo — sd-webui-state-manager-neo
+        - TagComplete Neo — sd-webui-tagcomplete-neo
+        - WebUI Diagnostics — sd-webui-diagnostics
+        - Wildcard Composer Neo — sd-wildcard-composer-neo
+        - This website
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      placeholder: v1.4.2, or the commit hash you installed
+    validations:
+      required: false
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      value: |
+        1. 
+        2. 
+        3. 
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Expected and actual result
+      description: What you expected to happen, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console output
+      description: Terminal or browser console output. It is formatted as code automatically, so no backticks are needed.
+      render: shell
+    validations:
+      required: false
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: Forge Neo, Python 3.11, RTX 4070, Windows 11
+    validations:
+      required: false
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched the open issues and this one is not a duplicate.
+          required: true
+        - label: I am on the latest version of the project, or I said which version I am on.
+          required: true

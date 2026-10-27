@@ -113,3 +113,92 @@ async function refreshNpmVersion(element) {
 }
 refreshRepositoryStats();
 document.querySelectorAll(".npm-version[data-npm-package]").forEach(refreshNpmVersion);
+/* The public queue mirrors open requests; the repository issues remain the source of truth. */
+const requestList = document.getElementById("request-list");
+const requestCountLabel = document.getElementById("request-count");
+const requestNote = document.getElementById("request-note");
+const queueLimit = 6;
+const arrowPath = "M6 18 18 6M6 6h12v12";
+const votePath = "M7 10.6V20H4.6A1.6 1.6 0 0 1 3 18.4v-6.2a1.6 1.6 0 0 1 1.6-1.6ZM7 10.6l3.9-7.2a2 2 0 0 1 2.8 2.5l-1.2 4h5a2.2 2.2 0 0 1 2.2 2.7l-1.1 5.5A2.6 2.6 0 0 1 16 20H7";
+function createIcon(pathData) {
+ const namespace = "http://www.w3.org/2000/svg";
+ const svg = document.createElementNS(namespace, "svg");
+ svg.setAttribute("class", "icon");
+ svg.setAttribute("viewBox", "0 0 24 24");
+ svg.setAttribute("fill", "none");
+ svg.setAttribute("stroke", "currentColor");
+ svg.setAttribute("stroke-width", "1.6");
+ svg.setAttribute("aria-hidden", "true");
+ const path = document.createElementNS(namespace, "path");
+ path.setAttribute("d", pathData);
+ svg.append(path);
+ return svg;
+}
+function createTag(text, className) {
+ const tag = document.createElement("span");
+ tag.className = className;
+ tag.textContent = text;
+ return tag;
+}
+function createRequestRow(request) {
+ const item = document.createElement("li");
+ item.className = "request-item";
+ const link = document.createElement("a");
+ link.className = "request-title";
+ link.href = request.url;
+ link.target = "_blank";
+ link.rel = "noopener noreferrer";
+ link.append(request.title, createIcon(arrowPath), createTag("opens in a new tab", "sr-only"));
+ const meta = document.createElement("p");
+ meta.className = "request-meta";
+ const votes = document.createElement("span");
+ votes.className = "request-votes";
+ votes.setAttribute("aria-label", `${request.votes} ${request.votes === 1 ? "vote" : "votes"}`);
+ votes.append(createIcon(votePath), String(request.votes));
+ meta.append(votes);
+ if (request.comments > 0) meta.append(createTag(`${request.comments} ${request.comments === 1 ? "comment" : "comments"}`, "request-comments"));
+ request.labels.slice(0, 2).forEach((label) => meta.append(createTag(label, "project-status")));
+ const opened = document.createElement("time");
+ opened.dateTime = request.created;
+ opened.textContent = new Date(request.created).toLocaleDateString("en", { year: "numeric", month: "short", day: "numeric" });
+ meta.append(opened);
+ item.append(link, meta);
+ return item;
+}
+function renderRequestQueue(requests) {
+ const ordered = [...requests].sort((a, b) => (b.votes - a.votes) || (b.comments - a.comments) || b.created.localeCompare(a.created));
+ const shown = ordered.slice(0, queueLimit);
+ requestList.replaceChildren(...shown.map(createRequestRow));
+ requestList.hidden = shown.length === 0;
+ requestCountLabel.textContent = ordered.length > 0 ? `${ordered.length} open` : "";
+ requestCountLabel.hidden = ordered.length === 0;
+ if (ordered.length === 0) requestNote.textContent = "No open requests yet — yours would be the first.";
+ else if (ordered.length > shown.length) requestNote.textContent = `Showing the ${shown.length} most supported. A thumbs up on GitHub counts as a vote.`;
+ else requestNote.textContent = "A thumbs up on GitHub counts as a vote.";
+}
+function readRequest(issue) {
+ const labels = Array.isArray(issue.labels) ? issue.labels : [];
+ return {
+  title: String(issue.title ?? "").trim(),
+  url: String(issue.html_url ?? ""),
+  votes: Number(issue.reactions?.["+1"]) || 0,
+  comments: Number(issue.comments) || 0,
+  created: String(issue.created_at ?? ""),
+  labels: labels.map((label) => (typeof label === "string" ? label : String(label?.name ?? ""))).filter((name) => name && name !== "request")
+ };
+}
+async function refreshRequestQueue() {
+ const key = "open-requests:eduardoabreu81.github.io";
+ const cached = readCache(key);
+ if (Array.isArray(cached)) { renderRequestQueue(cached); return; }
+ try {
+  const response = await fetch("https://api.github.com/repos/eduardoabreu81/eduardoabreu81.github.io/issues?state=open&labels=request&per_page=30", { headers: { Accept: "application/vnd.github+json" } });
+  if (!response.ok) return;
+  const issues = await response.json();
+  if (!Array.isArray(issues)) return;
+  const requests = issues.filter((issue) => issue && !issue.pull_request).map(readRequest).filter((request) => request.title && request.url.startsWith("https://github.com/") && request.created);
+  writeCache(key, requests);
+  renderRequestQueue(requests);
+ } catch { /* Keep the static note when offline or rate-limited. */ }
+}
+refreshRequestQueue();

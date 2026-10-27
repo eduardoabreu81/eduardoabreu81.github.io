@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Browse the projects
+    url: https://eduardoabreu81.github.io/
+    about: The full catalog of public repositories, with open requests at the bottom.
+  - name: Support the work
+    url: https://ko-fi.com/eduardoabreu81
+    about: Ko-fi page for the projects.

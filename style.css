@@ -41,9 +41,9 @@ button, a, input, summary { -webkit-tap-highlight-color: transparent; }
 .hero-avatar { display: block; width: 96px; height: 96px; flex: 0 0 96px; border-radius: 50%; border: 1px solid var(--card-border); }
 .hero h1 { color: var(--blue-bright); }
 .hero-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
-.hero-profile-link { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 14px; border: 1px solid var(--blue-dim); border-radius: 8px; background: var(--blue-dim); color: var(--blue-bright); font-size: 14px; font-weight: 550; transition: background-color 180ms var(--ease); }
-.hero-profile-link--secondary { background: transparent; border-color: var(--card-border); }
-.hero-profile-link:hover { background: var(--card); text-decoration: underline; }
+.hero-profile-link, .request-action { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 14px; border: 1px solid var(--blue-dim); border-radius: 8px; background: var(--blue-dim); color: var(--blue-bright); font-size: 14px; font-weight: 550; transition: background-color 180ms var(--ease); }
+.hero-profile-link--secondary, .request-action--secondary { background: transparent; border-color: var(--card-border); }
+.hero-profile-link:hover, .request-action:hover { background: var(--card); text-decoration: underline; }
 h1 { margin: 0; font-size: clamp(42px, 4.8vw, 68px); line-height: 1.09; font-weight: 650; letter-spacing: -.035em; }
 h1 span { color: var(--blue-bright); }
 .intro-copy { max-width: 38ch; margin: 0 0 4px; color: var(--text-muted); font-size: 16px; line-height: 1.7; }
@@ -104,6 +104,26 @@ h1 span { color: var(--blue-bright); }
 .empty-state p { color: var(--text-muted); font-size: 14px; }
 .reset-btn { min-height: 44px; margin-top: 6px; padding: 10px 17px; color: var(--blue-bright); background: var(--blue-dim); border: 0; border-radius: 8px; font-size: 13px; }
 .fallback-note { color: var(--text-muted); font-size: 14px; }
+.requests { display: grid; grid-template-columns: .85fr 1.15fr; align-items: start; gap: 64px; margin-top: 72px; padding-top: 44px; border-top: 1px solid var(--card-border); scroll-margin-top: 24px; }
+.requests h2 { margin: 0; font-size: 30px; font-weight: 600; letter-spacing: -.025em; line-height: 1.3; }
+.requests-copy { max-width: 44ch; margin: 15px 0 0; color: var(--text-muted); font-size: 14px; line-height: 1.7; }
+.request-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 21px; }
+.request-action .icon { width: 16px; height: 16px; flex-basis: 16px; }
+.queue-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; }
+.queue-heading h3 { margin: 0; font-size: 21px; font-weight: 600; letter-spacing: -.02em; line-height: 1.35; }
+.queue-count { margin: 0; color: var(--text-muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+.request-list { margin: 7px 0 0; padding: 0; list-style: none; }
+.request-item { padding: 2px 0 13px; border-top: 1px solid var(--card-border); }
+.request-title { display: block; min-height: 44px; padding: 11px 0 8px; font-size: 15px; line-height: 1.45; overflow-wrap: anywhere; }
+.request-title .icon { width: 14px; height: 14px; flex-basis: 14px; margin-left: 9px; color: var(--blue-bright); }
+.request-title:hover { color: var(--blue-bright); text-decoration: underline; }
+.request-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin: 0; color: var(--text-muted); font-size: 11px; line-height: 1.7; }
+.request-votes { display: inline-flex; align-items: center; gap: 5px; font-variant-numeric: tabular-nums; }
+.request-votes .icon { width: 14px; height: 14px; flex-basis: 14px; }
+.queue-note { margin: 15px 0 0; color: var(--text-muted); font-size: 13px; }
+.queue-link { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; color: var(--blue-bright); font-size: 13px; }
+.queue-link .icon { width: 14px; height: 14px; flex-basis: 14px; }
+.queue-link:hover { text-decoration: underline; }
 .site-footer { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 29px 0 36px; margin-top: 48px; border-top: 1px solid var(--card-border); color: var(--text-muted); font-size: 12px; }
 .site-footer p { margin: 0; }
 .site-footer>div { display: flex; align-items: center; gap: 24px; }
@@ -118,7 +138,7 @@ h1 span { color: var(--blue-bright); }
  .hero-identity { gap: 18px; } .hero-avatar { width: 72px; height: 72px; flex-basis: 72px; }
  .spotlight { padding: 20px; } .spotlight h2 { font-size: 21px; }
  .catalog-tools { align-items: stretch; flex-direction: column; gap: 13px; } .search-field { max-width: none; }
- .repo-list { column-gap: 36px; }
+ .repo-list { column-gap: 36px; } .requests { gap: 32px; }
 }
 @media (max-width: 760px) {
  .page { width: calc(100% - 44px); } .site-header { padding: 17px 0; }
@@ -132,6 +152,8 @@ h1 span { color: var(--blue-bright); }
  .spotlight-footer { font-size: 11px; gap: 4px; } .spotlight-footer .icon { width: 16px; height: 16px; flex-basis: 16px; }
  .collection { margin-top: 48px; } .collection-heading h2 { font-size: 25px; } .catalog-tools { margin-top: 22px; }
  .repo-list { grid-template-columns: 1fr; } .repo-item { padding: 24px 0; }
+ .requests { display: block; margin-top: 48px; padding-top: 32px; } .requests h2 { font-size: 25px; }
+ .requests-copy { max-width: 58ch; } .requests-queue { margin-top: 34px; }
  .site-footer { align-items: start; flex-direction: column; gap: 6px; margin-top: 30px; }
  .site-footer>div { width: 100%; justify-content: space-between; }
  .site-footer .footer-meta { align-items: start; margin-top: 14px; }
@@ -144,8 +166,12 @@ h1 span { color: var(--blue-bright); }
  .spotlight { padding: 16px 14px; } .spotlight h2 { font-size: 19px; } .spotlight p { font-size: 12px; }
  .collection-heading { align-items: start; flex-direction: column; gap: 8px; }
  .filter-btn { gap: 6px; padding-inline: 11px; } .repo-heading h3 { font-size: 20px; }
+ .queue-heading { align-items: start; flex-direction: column; gap: 8px; }
+}
+@media (max-width: 370px) {
+ .site-nav .nav-requests { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
- html { scroll-behavior: auto; } .spotlight, .spotlight-footer .icon, .filter-btn, .hero-profile-link { transition: none; }
+ html { scroll-behavior: auto; } .spotlight, .spotlight-footer .icon, .filter-btn, .hero-profile-link, .request-action { transition: none; }
  .spotlight:hover .icon, .spotlight:focus-visible .icon { transform: none; }
 }

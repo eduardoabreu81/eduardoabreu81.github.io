@@ -1,0 +1,94 @@
+name: Extension or feature request
+description: Suggest a new extension, an integration, or an improvement to an existing project.
+title: "[Request] "
+labels: ["request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Requests stay public so other people can add detail or vote with a 👍.
+        These are volunteer projects: interest and feasibility decide what gets built, and there are no delivery dates.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind of request
+      options:
+        - A new extension or tool
+        - An improvement to an existing project
+        - An integration with another tool or service
+        - Something else
+    validations:
+      required: true
+  - type: dropdown
+    id: project
+    attributes:
+      label: Project
+      description: Pick the closest match. Choose "Not listed" for a new project idea.
+      options:
+        - Character Finder — sd-character-finder
+        - CivitAI Browser EX — sd-civitai-browser-ex
+        - CivitAI Browser Neo — sd-civitai-browser-neo
+        - CivitAI Uploader Neo — sd-civitai-uploader-neo
+        - DLSS 5 for Forge — sd-forge-dlss5
+        - Forge Neo Extensions Index — forge-neo-extensions
+        - Forge Neo Theme — forge-neo-theme
+        - forgeneo-mcp — forgeneo-mcp
+        - GTA Mini — kimi-k3-gta
+        - Iris 3B for Forge Neo — iris-3b-forge-neo
+        - livewiki — livewiki
+        - LTX Video for Forge Neo — ltx-video-forge-neo
+        - mangotoon — mangotoon
+        - Merge Studio — sd-webui-merge-studio
+        - MiniMax H3 for Forge Neo — minimax-h3-forge-neo
+        - MiniMax Studio — minimax-agent-gui
+        - Prompt All-in-One Neo — sd-webui-prompt-all-in-one-neo
+        - Prompt Studio Neo — sd-webui-prompt-studio-neo
+        - Quillrift — quillrift
+        - Qwen-Image 2.1 for Forge Neo — qwen2.1-forge-neo
+        - State Manager Neo — sd-webui-state-manager-neo
+        - TagComplete Neo — sd-webui-tagcomplete-neo
+        - WebUI Diagnostics — sd-webui-diagnostics
+        - Wildcard Composer Neo — sd-wildcard-composer-neo
+        - This website
+        - Not listed / a new project
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What should it do?
+      description: Describe the behaviour you have in mind, as concretely as you can.
+      placeholder: A panel that reads the current wildcard file and previews the resolved prompt before generation.
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to accomplish?
+      description: How do you work around this today, and where does it break down? This is usually what decides whether a request gets picked up.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Relevant for Forge and Stable Diffusion requests.
+      placeholder: Forge Neo, Python 3.11, RTX 4070, Windows 11
+    validations:
+      required: false
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Links to similar extensions, API documentation, papers, screenshots or mockups.
+    validations:
+      required: false
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched the open requests and this one is not a duplicate.
+          required: true
+        - label: I understand this is volunteer work with no delivery commitment.
+          required: true
