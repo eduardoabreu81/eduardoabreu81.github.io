@@ -1,0 +1,21 @@
+Fonts bundled with this website
+===============================
+
+All three families are licensed under the SIL Open Font License, Version 1.1.
+The full licence text is in OFL.txt in this directory.
+
+Schibsted Grotesk  —  schibsted-grotesk.ttf
+  Copyright 2023 The Schibsted-Grotesk Project Authors
+  https://github.com/schibsted/schibsted-grotesk
+
+Big Shoulders Display  —  big-shoulders-display.woff2
+  Copyright 2019 The Big Shoulders Project Authors
+  https://github.com/pstiglitz/Big-Shoulders
+
+IBM Plex Mono  —  ibm-plex-mono-400.woff2, ibm-plex-mono-500.woff2
+  Copyright 2017 IBM Corp.
+  https://github.com/IBM/plex
+
+The Big Shoulders Display and IBM Plex Mono files are the Latin subsets
+served by Google Fonts, stored here so the site loads no third-party assets
+at runtime.
