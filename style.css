@@ -276,3 +276,6 @@ button { cursor: pointer; }
   .banner-title.is-entering .mask i { animation: none; transform: none; }
   * { transition-duration: .01ms !important; }
 }
+
+/* A project with no stars shows a dash, not a zero. */
+.queue-item s.is-zero { color: var(--ink-faint); letter-spacing: .1em; }

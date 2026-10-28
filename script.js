@@ -83,10 +83,12 @@ if (banner && slides.length > 1) {
    status.textContent = slide.status;
    eyebrow.append(status);
   }
-  const stars = document.createElement("span");
-  stars.className = "banner-stars";
-  stars.textContent = `${slide.stars} ${slide.stars === 1 ? "star" : "stars"}`;
-  eyebrow.append(stars);
+  if (slide.stars) {
+   const stars = document.createElement("span");
+   stars.className = "banner-stars";
+   stars.textContent = `${slide.stars} ${slide.stars === 1 ? "star" : "stars"}`;
+   eyebrow.append(stars);
+  }
 
   title.classList.remove("is-entering");
   title.replaceChildren(...maskedTitle(slide.name));
